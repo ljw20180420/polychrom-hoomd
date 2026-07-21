@@ -7,6 +7,7 @@ try:
     from matplotlib.cm import get_cmap
 except ImportError:
     from matplotlib import colormaps
+    get_cmap = lambda x:colormaps[x]
 from matplotlib.colors import Normalize
 
 
@@ -22,10 +23,7 @@ def domain_viewer(snap, cmap='coolwarm', **kwargs):
     vmin, vmax = typeids.min(), typeids.max()
     
     number_of_monomers = sum(chrom_lengths)
-    try:
-        colors = get_cmap(cmap)(Normalize(vmin=vmin, vmax=vmax)(typeids))
-    except NameError:
-        colors = colormaps[cmap](Normalize(vmin=vmin, vmax=vmax)(typeids))
+    colors = get_cmap(cmap)(Normalize(vmin=vmin, vmax=vmax)(typeids))
     
     colors[:, 3] = 1.
     colors = colors[:number_of_monomers]
@@ -87,9 +85,6 @@ def fresnel(snap,
         else:
             colorscale = np.arange(snap.particles.N)
     
-    try:
-        colors = get_cmap(cmap)(Normalize()(colorscale))
-    except NameError:
-        colors = colormaps[cmap](Normalize()(colorscale))
+    colors = get_cmap(cmap)(Normalize()(colorscale))
 
     return backends.Fresnel(positions, bonds, colors, radii, **kwargs)
