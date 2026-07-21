@@ -1,7 +1,7 @@
 import numpy as np
-from polykit.renderers import backends, viewers
-
 import polychrom_hoomd.utils as utils
+
+from polykit.renderers import backends, viewers
 
 try:
     from matplotlib.cm import get_cmap
